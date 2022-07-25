@@ -70,7 +70,7 @@ systemctl restart nginx
 
 ### See if it works
 
-Then open `jeannie.example.com` in Google Chrome.
+Then open `www.tvquizphd.com` in Google Chrome.
 
 ### Backup
 

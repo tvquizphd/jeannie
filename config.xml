@@ -15,7 +15,7 @@
     <database_collation>utf8_general_ci</database_collation>
     <table_prefix>modx_</table_prefix>
     <https_port>443</https_port>
-    <http_host>jeannie.example.com</http_host>
+    <http_host>tvquizphd.com</http_host>
 
     <!-- Set this to 1 if you are using MODX from Git or extracted it from the full MODX package to the server prior
          to installation. -->
@@ -30,19 +30,19 @@
     <language>en</language>
 
     <!-- Information for your administrator account -->
-    <cmsadmin>Jeannie</cmsadmin>
+    <cmsadmin>John</cmsadmin>
     <cmspassword>************</cmspassword>
     <cmsadminemail>tvquizphd@gmail.com</cmsadminemail>
 
     <!-- Paths for your MODX core directory -->
-    <core_path>/var/www/jeannie.example.com/core/</core_path>
+    <core_path>/var/www/tvquizphd.com/core/</core_path>
 
     <!-- Paths for the default contexts that are installed. -->
-    <context_mgr_path>/var/www/jeannie.example.com/manager/</context_mgr_path>
+    <context_mgr_path>/var/www/tvquizphd.com/manager/</context_mgr_path>
     <context_mgr_url>/manager/</context_mgr_url>
-    <context_connectors_path>/var/www/jeannie.example.com/connectors/</context_connectors_path>
+    <context_connectors_path>/var/www/tvquizphd.com/connectors/</context_connectors_path>
     <context_connectors_url>/connectors/</context_connectors_url>
-    <context_web_path>/var/www/jeannie.example.com/</context_web_path>
+    <context_web_path>/var/www/tvquizphd.com/</context_web_path>
     <context_web_url>/</context_web_url>
 
     <!-- Whether or not to remove the setup/ directory after installation. -->
