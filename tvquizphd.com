@@ -8,18 +8,25 @@ server {
     listen [::]:443 ssl; # managed by Certbot
     listen 443 ssl; # managed by Certbot
 
-    location ~ [^/]\.php(/|$) {
-        fastcgi_split_path_info ^(.+?\.php)(/.*)$;
-        if (!-f $document_root$fastcgi_script_name) {
-            return 404;
-        }
+    location @modx-rewrite {
+        rewrite ^/(.*)$ /index.php?q=$1&$args last;
+    }
 
-        # Mitigate https://httpoxy.org/ vulnerabilities
-        fastcgi_param HTTP_PROXY "";
+    location / {
+        absolute_redirect off;
+        try_files $uri $uri/ @modx-rewrite;
+    }
 
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(.*)$;
         fastcgi_pass unix:/run/php/php8.0-fpm.sock;
-        fastcgi_index index.php;
-        include fastcgi.conf;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_ignore_client_abort on;
+        fastcgi_param  SERVER_NAME $http_host;
+        fastcgi_param HTTP_PROXY "";
     }
 
     location ~ /\.ht {
