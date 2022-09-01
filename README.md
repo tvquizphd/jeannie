@@ -52,6 +52,7 @@ Then, install modx:
 wget https://modx.com/download/direct/modx-3.0.1-pl-sdk.zip
 wget https://raw.githubusercontent.com/craftsmancoding/modx_utils/master/installmodx.php
 php installmodx.php --config=config.xml --zip=modx-3.0.1-pl-sdk.zip --target=/var/www/tvquizphd.com --version=3.0.1 --installmode=new
+chmod 400 /var/www/tvquizphd.com/core/config/config.inc.php
 ```
 
 ### Setup nginx
