@@ -1,3 +1,13 @@
+### When things go wrong
+
+Restart your server, then do this.
+
+```
+php ./installmodx.php --installmode=upgrade --core_path=/var/www/tvquizphd.com/core/ --zip=modx-3.0.1-pl-sdk.zip
+sudo ufw allow https
+systemctl restart nginx
+```
+
 ### Installing dependencies
 
 Install php 8.0 and mysql 5.7:
@@ -72,6 +82,13 @@ systemctl restart nginx
 ### See if it works
 
 Then open `www.tvquizphd.com` in Google Chrome.
+
+### Manage settings
+
+got to the `/manager`
+
+- In Content -> Content Types, set HTML file extension to empty string
+- In System Settings, set `friendly_urls` to Yes.
 
 ### Backup
 

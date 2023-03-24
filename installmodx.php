@@ -74,9 +74,9 @@
 //------------------------------------------------------------------------------
 define('MODX_API_MODE', true);
 // Web page that shows the most current version of MODX
-define('INFO_PAGE', 'http://modx.com/download/'); 
+define('INFO_PAGE', 'https://modx.com/download/'); 
 // append the modx version, e.g. modx-2.2.6.zip
-define('DOWNLOAD_PAGE', 'http://modx.com/download/direct/');
+define('DOWNLOAD_PAGE', 'https://modx.com/download/direct/');
 define('ESC', 27);
 // we need PHP 5.3.0 for the CLI options and GOTO statements (yes, really)
 define('PHP_REQ_VER', '5.3.0');
@@ -371,47 +371,48 @@ function download_modx($modx_zip) {
  */
 function extract_zip($zipfile,$target,$verbose=false) {
 
-	$z = zip_open($zipfile) or die("can't open $zipfile: $php_errormsg");
-	while ($entry = zip_read($z)) {
-		
-		$entry_name = zip_entry_name($entry);
+  $zip = new ZipArchive();
+  
+  $zip->open($zipfile, ZipArchive::RDONLY);
 
-		// only proceed if the file is not 0 bytes long
-		if (zip_entry_filesize($entry)) {
-			// Put this in our own directory
-			$entry_name = $target . strip_first_dir($entry_name);
-			if ($verbose) {
-                print 'inflating: '. $entry_name .PHP_EOL;
-			}
-			else {
-                print '.';
-			}
-			$dir = dirname($entry_name);
-			// make all necessary directories in the file's path
-			if (!is_dir($dir)) { 
-				@mkdir($dir,0777,true); 
-			}
-				
-			$file = basename($entry_name);
-			
-			if (zip_entry_open($z,$entry)) {
-				if ($fh = fopen($dir.'/'.$file,'w')) {
-					// write the entire file
-					fwrite($fh,
-					zip_entry_read($entry,zip_entry_filesize($entry)))
-					or error_log("can't write: $php_errormsg");
-					fclose($fh) or error_log("can't close: $php_errormsg");
-				} 
-				else {
-					print "Can't open $dir/$file".PHP_EOL;
-				}
-				zip_entry_close($entry);
-			} 
-			else {
-				print "Can't open entry $entry_name" . PHP_EOL;
-			}
-		}
-	}
+  if ($zip) {
+    for ($i = 0; $entry = $zip->statIndex($i); $i++) {
+      
+      $entry_name = $entry['name'];
+
+      // only proceed if the file is not 0 bytes long
+      if ($entry['size'] > 0) {
+        // Put this in our own directory
+        $entry_name = $target . strip_first_dir($entry_name);
+        if ($verbose) {
+                  print 'inflating: '. $entry_name .PHP_EOL;
+        }
+        else {
+                  print '.';
+        }
+        $dir = dirname($entry_name);
+        // make all necessary directories in the file's path
+        if (!is_dir($dir)) { 
+          @mkdir($dir,0777,true); 
+        }
+          
+        $file = basename($entry_name);
+        
+        if ($fh = fopen($dir.'/'.$file,'w')) {
+          // write the entire file
+          fwrite($fh,
+          $zip->getFromIndex($i, 0))
+          or error_log("can't write: $php_errormsg");
+          fclose($fh) or error_log("can't close: $php_errormsg");
+        } 
+        else {
+          print "Can't open $dir/$file".PHP_EOL;
+        }
+      }
+    }
+  }
+
+  $zip->close();
 	
 	print 'Extraction complete.'.PHP_EOL.PHP_EOL;
 }
